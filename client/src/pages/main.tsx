@@ -22,6 +22,9 @@ export default function Main() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
+  // UI states
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  
   // Search states
   const [keyword, setKeyword] = useState("");
   const [selectedAreaCodes, setSelectedAreaCodes] = useState<string[]>([]);
@@ -182,124 +185,182 @@ export default function Main() {
       <div style={{ display: "flex", minHeight: "calc(100vh - 80px)" }}>
         {/* Sidebar */}
         <div style={{ 
-          width: "280px", 
+          width: sidebarCollapsed ? "60px" : "280px", 
           background: "white", 
           borderRight: "1px solid #e5e7eb",
-          padding: "24px"
+          padding: sidebarCollapsed ? "12px" : "24px",
+          transition: "width 0.3s ease, padding 0.3s ease",
+          position: "relative"
         }}>
-          {/* API Key Section */}
-          <div style={{ marginBottom: "32px" }}>
-            <h3 style={{ margin: "0 0 16px 0", color: "#1f2937", fontSize: "16px", fontWeight: "600" }}>
-              🔑 API Access
-            </h3>
-            <form onSubmit={handleApiKeySubmit}>
-              <input
-                type="password"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder="Enter SERP API key..."
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  border: "1px solid #d1d5db",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  marginBottom: "12px"
-                }}
-              />
-              <button
-                type="submit"
-                style={{
-                  width: "100%",
-                  background: "#3b82f6",
-                  color: "white",
-                  border: "none",
-                  padding: "10px",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  cursor: "pointer",
-                  marginBottom: "12px"
-                }}
-              >
-                Save API Key
-              </button>
-            </form>
-            
-            <div style={{ textAlign: "center" }}>
-              <span style={{ fontSize: "12px", color: "#6b7280" }}>or</span>
-            </div>
-            
-            <button
-              onClick={() => setShowSignup(!showSignup)}
-              style={{
-                width: "100%",
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                color: "white",
-                border: "none",
-                padding: "10px",
-                borderRadius: "6px",
-                fontSize: "14px",
-                fontWeight: "500",
-                cursor: "pointer",
-                marginTop: "12px"
-              }}
-            >
-              Premium Signup ($5/mo)
-            </button>
+          {/* Collapse/Expand Button */}
+          <button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            style={{
+              position: "absolute",
+              top: "12px",
+              right: sidebarCollapsed ? "12px" : "24px",
+              background: "#f3f4f6",
+              border: "1px solid #d1d5db",
+              borderRadius: "6px",
+              padding: "8px",
+              cursor: "pointer",
+              fontSize: "14px",
+              color: "#6b7280",
+              zIndex: 10
+            }}
+            title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {sidebarCollapsed ? "→" : "←"}
+          </button>
 
-            {/* Premium Signup Form */}
-            {showSignup && (
-              <form onSubmit={handleSignupSubmit} style={{ marginTop: "16px", padding: "16px", background: "#f8fafc", borderRadius: "8px" }}>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email address"
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    border: "1px solid #d1d5db",
-                    borderRadius: "6px",
-                    fontSize: "14px",
-                    marginBottom: "8px"
-                  }}
-                  required
-                />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    border: "1px solid #d1d5db",
-                    borderRadius: "6px",
-                    fontSize: "14px",
-                    marginBottom: "12px"
-                  }}
-                  required
-                />
+          {!sidebarCollapsed && (
+            <>
+              {/* API Key Section */}
+              <div style={{ marginBottom: "32px", marginTop: "40px" }}>
+                <h3 style={{ margin: "0 0 16px 0", color: "#1f2937", fontSize: "16px", fontWeight: "600" }}>
+                  🔑 API Access
+                </h3>
+                <form onSubmit={handleApiKeySubmit}>
+                  <input
+                    type="password"
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                    placeholder="Enter SERP API key..."
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      border: "1px solid #d1d5db",
+                      borderRadius: "6px",
+                      fontSize: "14px",
+                      marginBottom: "12px"
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    style={{
+                      width: "100%",
+                      background: "#3b82f6",
+                      color: "white",
+                      border: "none",
+                      padding: "10px",
+                      borderRadius: "6px",
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      cursor: "pointer",
+                      marginBottom: "12px"
+                    }}
+                  >
+                    Save API Key
+                  </button>
+                </form>
+                
+                <div style={{ textAlign: "center" }}>
+                  <span style={{ fontSize: "12px", color: "#6b7280" }}>or</span>
+                </div>
+                
                 <button
-                  type="submit"
+                  onClick={() => setShowSignup(!showSignup)}
                   style={{
                     width: "100%",
-                    background: "#667eea",
+                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                     color: "white",
                     border: "none",
                     padding: "10px",
                     borderRadius: "6px",
                     fontSize: "14px",
                     fontWeight: "500",
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    marginTop: "12px"
                   }}
                 >
-                  Sign Up
+                  Premium Signup ($5/mo)
                 </button>
-              </form>
-            )}
-          </div>
+
+                {/* Premium Signup Form */}
+                {showSignup && (
+                  <form onSubmit={handleSignupSubmit} style={{ marginTop: "16px", padding: "16px", background: "#f8fafc", borderRadius: "8px" }}>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Email address"
+                      style={{
+                        width: "100%",
+                        padding: "10px",
+                        border: "1px solid #d1d5db",
+                        borderRadius: "6px",
+                        fontSize: "14px",
+                        marginBottom: "8px"
+                      }}
+                      required
+                    />
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Password"
+                      style={{
+                        width: "100%",
+                        padding: "10px",
+                        border: "1px solid #d1d5db",
+                        borderRadius: "6px",
+                        fontSize: "14px",
+                        marginBottom: "12px"
+                      }}
+                      required
+                    />
+                    <button
+                      type="submit"
+                      style={{
+                        width: "100%",
+                        background: "#667eea",
+                        color: "white",
+                        border: "none",
+                        padding: "10px",
+                        borderRadius: "6px",
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Sign Up
+                    </button>
+                  </form>
+                )}
+              </div>
+            </>
+          )}
+
+          {/* Collapsed State - Mini Icons */}
+          {sidebarCollapsed && (
+            <div style={{ marginTop: "50px", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+              <div 
+                title="API Key & Premium Access"
+                style={{ 
+                  fontSize: "24px", 
+                  cursor: "pointer",
+                  padding: "8px",
+                  borderRadius: "6px",
+                  background: apiKey ? "#dcfce7" : "#f3f4f6"
+                }}
+                onClick={() => setSidebarCollapsed(false)}
+              >
+                🔑
+              </div>
+              <div 
+                title="Expand to access settings"
+                style={{ 
+                  fontSize: "20px", 
+                  color: "#6b7280",
+                  cursor: "pointer",
+                  padding: "8px"
+                }}
+                onClick={() => setSidebarCollapsed(false)}
+              >
+                ⚙️
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Main Content */}
