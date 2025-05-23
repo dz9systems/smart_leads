@@ -281,28 +281,22 @@ export default function Main() {
                   </button>
                 </form>
                 
-                {/* Toggle Instructions Button */}
+                {/* Toggle Instructions Link */}
                 <button
                   type="button"
                   onClick={() => setShowInstructions(!showInstructions)}
                   style={{
-                    width: "100%",
                     background: "none",
-                    border: "1px solid #d1d5db",
-                    borderRadius: "6px",
-                    padding: "8px 12px",
+                    border: "none",
+                    padding: "4px 0",
                     fontSize: "12px",
                     color: "#3b82f6",
                     cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "6px",
-                    marginBottom: showInstructions ? "12px" : "0",
-                    textDecoration: "none"
+                    textDecoration: "underline",
+                    marginBottom: showInstructions ? "12px" : "0"
                   }}
                 >
-                  🔗 How to get your SERP API key {showInstructions ? "🔼" : "🔽"}
+                  How to get your SERP API key
                 </button>
                 
                 {/* API Key Instructions */}
@@ -315,9 +309,6 @@ export default function Main() {
                     fontSize: "12px",
                     color: "#4b5563"
                   }}>
-                    <h4 style={{ margin: "0 0 8px 0", color: "#1f2937", fontSize: "13px", fontWeight: "600" }}>
-                      🔗 How to get your SERP API key:
-                    </h4>
                     <ol style={{ margin: "0", paddingLeft: "16px", lineHeight: "1.5" }}>
                       <li>Visit <a href="https://serpapi.com" target="_blank" rel="noopener noreferrer" style={{ color: "#3b82f6", textDecoration: "none" }}>SerpApi.com</a></li>
                       <li>Click "Sign up" and create your account</li>
