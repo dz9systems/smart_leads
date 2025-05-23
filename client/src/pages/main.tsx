@@ -24,6 +24,7 @@ export default function Main() {
   
   // UI states
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
   
   // Search states
   const [keyword, setKeyword] = useState("");
@@ -45,7 +46,9 @@ export default function Main() {
     if (email.trim() && password.trim()) {
       console.log("Premium signup:", { email, password });
       alert("Premium signup submitted! (Demo)");
-      setShowSignup(false);
+      setShowPremiumModal(false);
+      setEmail("");
+      setPassword("");
     }
   };
 
@@ -162,23 +165,46 @@ export default function Main() {
         borderBottom: "1px solid #e5e7eb",
         padding: "16px 24px"
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <div style={{ 
-            width: "32px", 
-            height: "32px", 
-            background: "#3b82f6", 
-            borderRadius: "8px", 
-            display: "flex", 
-            alignItems: "center", 
-            justifyContent: "center",
-            color: "white",
-            fontSize: "16px"
-          }}>
-            🎯
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <div style={{ 
+              width: "32px", 
+              height: "32px", 
+              background: "#3b82f6", 
+              borderRadius: "8px", 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center",
+              color: "white",
+              fontSize: "16px"
+            }}>
+              🎯
+            </div>
+            <h1 style={{ fontSize: "24px", fontWeight: "600", color: "#1f2937", margin: 0 }}>
+              Smart Leads
+            </h1>
           </div>
-          <h1 style={{ fontSize: "24px", fontWeight: "600", color: "#1f2937", margin: 0 }}>
-            Smart Leads
-          </h1>
+          
+          {/* Premium Button */}
+          <button
+            onClick={() => setShowPremiumModal(true)}
+            style={{
+              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              color: "white",
+              border: "none",
+              padding: "12px 20px",
+              borderRadius: "8px",
+              fontSize: "14px",
+              fontWeight: "600",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+            }}
+          >
+            💎 Upgrade to Premium
+          </button>
         </div>
       </header>
 
@@ -247,86 +273,42 @@ export default function Main() {
                       fontSize: "14px",
                       fontWeight: "500",
                       cursor: "pointer",
-                      marginBottom: "12px"
+                      marginBottom: "16px"
                     }}
                   >
                     Save API Key
                   </button>
                 </form>
                 
-                <div style={{ textAlign: "center" }}>
-                  <span style={{ fontSize: "12px", color: "#6b7280" }}>or</span>
+                {/* API Key Instructions */}
+                <div style={{ 
+                  padding: "12px", 
+                  background: "#f8fafc", 
+                  borderRadius: "6px",
+                  border: "1px solid #e2e8f0",
+                  fontSize: "12px",
+                  color: "#4b5563"
+                }}>
+                  <h4 style={{ margin: "0 0 8px 0", color: "#1f2937", fontSize: "13px", fontWeight: "600" }}>
+                    🔗 How to get your SERP API key:
+                  </h4>
+                  <ol style={{ margin: "0", paddingLeft: "16px", lineHeight: "1.5" }}>
+                    <li>Visit <a href="https://serpapi.com" target="_blank" rel="noopener noreferrer" style={{ color: "#3b82f6", textDecoration: "none" }}>SerpApi.com</a></li>
+                    <li>Click "Sign up" and create your account</li>
+                    <li>Verify your email address</li>
+                    <li>Go to your dashboard and copy your API key</li>
+                    <li>Paste it above to start generating leads!</li>
+                  </ol>
+                  <div style={{ 
+                    marginTop: "8px", 
+                    padding: "6px 8px", 
+                    background: "#ddd6fe", 
+                    borderRadius: "4px",
+                    fontSize: "11px"
+                  }}>
+                    <strong>💡 Free:</strong> SerpApi offers 100 free searches per month
+                  </div>
                 </div>
-                
-                <button
-                  onClick={() => setShowSignup(!showSignup)}
-                  style={{
-                    width: "100%",
-                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                    color: "white",
-                    border: "none",
-                    padding: "10px",
-                    borderRadius: "6px",
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    cursor: "pointer",
-                    marginTop: "12px"
-                  }}
-                >
-                  Premium Signup ($5/mo)
-                </button>
-
-                {/* Premium Signup Form */}
-                {showSignup && (
-                  <form onSubmit={handleSignupSubmit} style={{ marginTop: "16px", padding: "16px", background: "#f8fafc", borderRadius: "8px" }}>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Email address"
-                      style={{
-                        width: "100%",
-                        padding: "10px",
-                        border: "1px solid #d1d5db",
-                        borderRadius: "6px",
-                        fontSize: "14px",
-                        marginBottom: "8px"
-                      }}
-                      required
-                    />
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Password"
-                      style={{
-                        width: "100%",
-                        padding: "10px",
-                        border: "1px solid #d1d5db",
-                        borderRadius: "6px",
-                        fontSize: "14px",
-                        marginBottom: "12px"
-                      }}
-                      required
-                    />
-                    <button
-                      type="submit"
-                      style={{
-                        width: "100%",
-                        background: "#667eea",
-                        color: "white",
-                        border: "none",
-                        padding: "10px",
-                        borderRadius: "6px",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        cursor: "pointer"
-                      }}
-                    >
-                      Sign Up
-                    </button>
-                  </form>
-                )}
               </div>
             </>
           )}
@@ -680,6 +662,183 @@ export default function Main() {
           )}
         </div>
       </div>
+
+      {/* Premium Modal */}
+      {showPremiumModal && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1000
+        }}>
+          <div style={{
+            background: "white",
+            borderRadius: "16px",
+            padding: "32px",
+            maxWidth: "500px",
+            width: "90%",
+            maxHeight: "90vh",
+            overflow: "auto",
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+          }}>
+            {/* Modal Header */}
+            <div style={{ textAlign: "center", marginBottom: "24px" }}>
+              <div style={{ fontSize: "48px", marginBottom: "12px" }}>💎</div>
+              <h2 style={{ margin: "0 0 8px 0", color: "#1f2937", fontSize: "24px", fontWeight: "700" }}>
+                Smart Leads Premium
+              </h2>
+              <div style={{ fontSize: "32px", fontWeight: "700", color: "#667eea", marginBottom: "8px" }}>
+                $5<span style={{ fontSize: "18px", fontWeight: "400" }}>/month</span>
+              </div>
+              <p style={{ color: "#6b7280", fontSize: "14px", margin: 0 }}>
+                1,000 searches per month • No API key needed
+              </p>
+            </div>
+
+            {/* Premium Benefits */}
+            <div style={{ marginBottom: "24px" }}>
+              <h3 style={{ margin: "0 0 16px 0", color: "#1f2937", fontSize: "16px", fontWeight: "600" }}>
+                What's included:
+              </h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ color: "#10b981", fontSize: "18px" }}>✓</span>
+                  <span style={{ color: "#374151" }}>No need to get your own API key</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ color: "#10b981", fontSize: "18px" }}>✓</span>
+                  <span style={{ color: "#374151" }}>1,000 high-quality searches per month</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ color: "#10b981", fontSize: "18px" }}>✓</span>
+                  <span style={{ color: "#374151" }}>Save and access your past lead lists</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ color: "#10b981", fontSize: "18px" }}>✓</span>
+                  <span style={{ color: "#374151" }}>Unlimited CSV downloads</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ color: "#10b981", fontSize: "18px" }}>✓</span>
+                  <span style={{ color: "#374151" }}>Priority customer support</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ color: "#10b981", fontSize: "18px" }}>✓</span>
+                  <span style={{ color: "#374151" }}>Higher quality and more recent data</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Signup Form */}
+            <form onSubmit={handleSignupSubmit}>
+              <div style={{ marginBottom: "16px" }}>
+                <label style={{ 
+                  display: "block", 
+                  fontSize: "14px", 
+                  fontWeight: "500", 
+                  color: "#374151", 
+                  marginBottom: "6px" 
+                }}>
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email..."
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "6px",
+                    fontSize: "14px"
+                  }}
+                  required
+                />
+              </div>
+
+              <div style={{ marginBottom: "20px" }}>
+                <label style={{ 
+                  display: "block", 
+                  fontSize: "14px", 
+                  fontWeight: "500", 
+                  color: "#374151", 
+                  marginBottom: "6px" 
+                }}>
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Create a password..."
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "6px",
+                    fontSize: "14px"
+                  }}
+                  required
+                />
+              </div>
+
+              <div style={{ display: "flex", gap: "12px" }}>
+                <button
+                  type="button"
+                  onClick={() => setShowPremiumModal(false)}
+                  style={{
+                    flex: 1,
+                    background: "#f3f4f6",
+                    color: "#374151",
+                    border: "1px solid #d1d5db",
+                    padding: "12px",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    cursor: "pointer"
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  style={{
+                    flex: 2,
+                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    color: "white",
+                    border: "none",
+                    padding: "12px",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    cursor: "pointer"
+                  }}
+                >
+                  Start Premium Trial
+                </button>
+              </div>
+            </form>
+
+            <p style={{ 
+              textAlign: "center", 
+              color: "#6b7280", 
+              fontSize: "11px", 
+              marginTop: "16px",
+              marginBottom: 0,
+              lineHeight: 1.4
+            }}>
+              By signing up, you agree to our Terms of Service and Privacy Policy. 
+              Cancel anytime.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
