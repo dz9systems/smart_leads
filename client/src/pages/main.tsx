@@ -159,6 +159,14 @@ export default function Main() {
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#fafafa", fontFamily: "Inter, sans-serif" }}>
+      {/* Hide scrollbar styles */}
+      <style>
+        {`
+          .modal-content::-webkit-scrollbar {
+            display: none;
+          }
+        `}
+      </style>
       {/* Header */}
       <header style={{ 
         background: "white", 
@@ -695,14 +703,16 @@ export default function Main() {
           justifyContent: "center",
           zIndex: 1000
         }}>
-          <div style={{
+          <div className="modal-content" style={{
             background: "white",
             borderRadius: "16px",
             padding: "32px",
-            maxWidth: "500px",
+            maxWidth: "600px",
             width: "90%",
             maxHeight: "90vh",
-            overflow: "auto",
+            overflowY: "auto",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
             boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
           }}>
             {/* Modal Header */}
