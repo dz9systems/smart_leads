@@ -11,11 +11,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const requestData = insertLeadRequestSchema.parse(req.body);
       
-      // Validate API key if provided
-      if (requestData.apiKey && requestData.apiKey !== process.env.API_KEY) {
-        return res.status(401).json({ 
-          message: "Invalid API key provided",
-          error: "INVALID_API_KEY"
+      // Determine which API key to use - user's key or backend key
+      const apiKeyToUse = requestData.apiKey || process.env.SERPAPI_KEY;
+      
+      // Check if we have an API key to use
+      if (!apiKeyToUse) {
+        return res.status(400).json({ 
+          message: "API key required. Please provide your SERP API key or upgrade to premium.",
+          error: "NO_API_KEY"
         });
       }
 

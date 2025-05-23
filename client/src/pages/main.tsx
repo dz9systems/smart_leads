@@ -100,10 +100,7 @@ export default function Main() {
       return;
     }
 
-    if (!apiKey && !email) {
-      alert("Please provide an API key or sign up for premium access");
-      return;
-    }
+    // API key is now optional - backend will use server key if user doesn't provide one
 
     setIsLoading(true);
 
@@ -254,15 +251,26 @@ export default function Main() {
               {/* API Key Section */}
               <div style={{ marginBottom: "32px", marginTop: "40px" }}>
                 <h3 style={{ margin: "0 0 16px 0", color: "#1f2937", fontSize: "16px", fontWeight: "600" }}>
-                  Serp API
+                  Serp API (Optional)
                 </h3>
+                <div style={{ 
+                  background: "#f0f9ff", 
+                  border: "1px solid #0ea5e9", 
+                  borderRadius: "6px", 
+                  padding: "12px", 
+                  marginBottom: "16px",
+                  fontSize: "12px",
+                  color: "#0369a1"
+                }}>
+                  <strong>✨ Good news!</strong> API key is now optional. We provide SERP access for all users!
+                </div>
                 <form onSubmit={handleApiKeySubmit}>
                   <div style={{ position: "relative", marginBottom: "12px" }}>
                     <input
                       type={showApiKey ? "text" : "password"}
                       value={apiKey}
                       onChange={(e) => setApiKey(e.target.value)}
-                      placeholder="Enter SERP API key..."
+                      placeholder="Your own SERP API key (optional)..."
                       style={{
                         width: "100%",
                         padding: "12px 40px 12px 12px",
