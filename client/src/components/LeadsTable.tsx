@@ -90,7 +90,6 @@ export default function LeadsTable({ leads, searchLocation }: LeadsTableProps) {
       {/* Table Header */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <div className={styles.icon}>📊</div>
           <div>
             <h2 className={styles.title}>Generated Leads</h2>
             <p className={styles.subtitle}>
@@ -126,7 +125,6 @@ export default function LeadsTable({ leads, searchLocation }: LeadsTableProps) {
       <div>
         {filteredLeads.length === 0 ? (
           <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>📊</div>
             <h3 className={styles.emptyTitle}>No leads found</h3>
             <p className={styles.emptySubtitle}>
               {safeLeads.length === 0 
