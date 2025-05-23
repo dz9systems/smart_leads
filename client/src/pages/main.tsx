@@ -26,6 +26,7 @@ export default function Main() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
+  const [showApiKey, setShowApiKey] = useState(false);
   
   // Search states
   const [keyword, setKeyword] = useState("");
@@ -253,23 +254,42 @@ export default function Main() {
               {/* API Key Section */}
               <div style={{ marginBottom: "32px", marginTop: "40px" }}>
                 <h3 style={{ margin: "0 0 16px 0", color: "#1f2937", fontSize: "16px", fontWeight: "600" }}>
-                  🔑 API Access
+                  Serp API
                 </h3>
                 <form onSubmit={handleApiKeySubmit}>
-                  <input
-                    type="password"
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    placeholder="Enter SERP API key..."
-                    style={{
-                      width: "100%",
-                      padding: "12px",
-                      border: "1px solid #d1d5db",
-                      borderRadius: "6px",
-                      fontSize: "14px",
-                      marginBottom: "12px"
-                    }}
-                  />
+                  <div style={{ position: "relative", marginBottom: "12px" }}>
+                    <input
+                      type={showApiKey ? "text" : "password"}
+                      value={apiKey}
+                      onChange={(e) => setApiKey(e.target.value)}
+                      placeholder="Enter SERP API key..."
+                      style={{
+                        width: "100%",
+                        padding: "12px 40px 12px 12px",
+                        border: "1px solid #d1d5db",
+                        borderRadius: "6px",
+                        fontSize: "14px"
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowApiKey(!showApiKey)}
+                      style={{
+                        position: "absolute",
+                        right: "8px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        color: "#6b7280",
+                        padding: "4px"
+                      }}
+                    >
+                      {showApiKey ? "👁️" : "👁️‍🗨️"}
+                    </button>
+                  </div>
                   <button
                     type="submit"
                     style={{
