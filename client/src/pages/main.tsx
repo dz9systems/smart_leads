@@ -307,13 +307,11 @@ export default function Main() {
                             <circle cx="12" cy="12" r="3"/>
                           </>
                         ) : (
-                          // Eye closed with slash
+                          // Eye with line through it
                           <>
-                            <path d="m15 18-.722-3.25"/>
-                            <path d="m2 2 20 20"/>
-                            <path d="m9 9-.722-3.25"/>
-                            <path d="M17.5 15.5 22 12s-4-8-11-8a6.913 6.913 0 0 0-2.5.5"/>
-                            <path d="M9.5 8.5 2 12s4 8 11 8c.454 0 .898-.04 1.334-.117"/>
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                            <line x1="4" y1="4" x2="20" y2="20"/>
                           </>
                         )}
                       </svg>
