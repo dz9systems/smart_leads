@@ -691,30 +691,56 @@ export default function Main() {
 
       {/* Premium Modal */}
       {showPremiumModal && (
-        <div style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 1000
-        }}>
-          <div className="modal-content" style={{
-            background: "white",
-            borderRadius: "16px",
-            padding: "32px",
-            maxWidth: "600px",
-            width: "90%",
-            maxHeight: "90vh",
-            overflowY: "auto",
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-          }}>
+        <div 
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000
+          }}
+          onClick={() => setShowPremiumModal(false)}
+        >
+          <div 
+            className="modal-content" 
+            style={{
+              background: "white",
+              borderRadius: "16px",
+              padding: "32px",
+              maxWidth: "600px",
+              width: "90%",
+              maxHeight: "90vh",
+              overflowY: "auto",
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              position: "relative"
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowPremiumModal(false)}
+              style={{
+                position: "absolute",
+                top: "16px",
+                right: "16px",
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                color: "#6b7280",
+                cursor: "pointer",
+                padding: "4px",
+                borderRadius: "4px"
+              }}
+            >
+              ×
+            </button>
             {/* Modal Header */}
             <div style={{ textAlign: "center", marginBottom: "24px" }}>
               <div style={{ fontSize: "48px", marginBottom: "12px" }}>💎</div>
@@ -816,41 +842,22 @@ export default function Main() {
                 />
               </div>
 
-              <div style={{ display: "flex", gap: "12px" }}>
-                <button
-                  type="button"
-                  onClick={() => setShowPremiumModal(false)}
-                  style={{
-                    flex: 1,
-                    background: "#f3f4f6",
-                    color: "#374151",
-                    border: "1px solid #d1d5db",
-                    padding: "12px",
-                    borderRadius: "6px",
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    cursor: "pointer"
-                  }}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  style={{
-                    flex: 2,
-                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                    color: "white",
-                    border: "none",
-                    padding: "12px",
-                    borderRadius: "6px",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    cursor: "pointer"
-                  }}
-                >
-                  Start Premium Trial
-                </button>
-              </div>
+              <button
+                type="submit"
+                style={{
+                  width: "100%",
+                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  color: "white",
+                  border: "none",
+                  padding: "12px",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  cursor: "pointer"
+                }}
+              >
+                Start Premium Trial
+              </button>
             </form>
 
             <p style={{ 
