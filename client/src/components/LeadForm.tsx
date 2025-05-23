@@ -86,14 +86,21 @@ export default function LeadForm({ onLeadsGenerated }: LeadFormProps) {
           <label className={styles.label}>
             📍 Location
           </label>
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="e.g., New York, NY"
-            className={styles.input}
-            required
-          />
+          {/* Display selected location as tag */}
+          {location && (
+            <div className={styles.multiSelect}>
+              <span className={styles.tag}>
+                {location}
+                <button
+                  type="button"
+                  onClick={() => setLocation('')}
+                  style={{ marginLeft: '4px', background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+                >
+                  ×
+                </button>
+              </span>
+            </div>
+          )}
           <select 
             onChange={(e) => {
               if (e.target.value) {
@@ -102,7 +109,6 @@ export default function LeadForm({ onLeadsGenerated }: LeadFormProps) {
               }
             }}
             className={styles.input}
-            style={{ marginTop: '8px' }}
           >
             <option value="">Select a popular location...</option>
             <option value="New York, NY">New York, NY</option>
@@ -126,6 +132,7 @@ export default function LeadForm({ onLeadsGenerated }: LeadFormProps) {
             <option value="Denver, CO">Denver, CO</option>
             <option value="Boston, MA">Boston, MA</option>
           </select>
+          <p className={styles.hint}>Select a location from dropdown - it will appear as a tag above</p>
         </div>
 
         {/* Area Codes */}
