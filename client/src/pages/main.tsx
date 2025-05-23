@@ -474,7 +474,7 @@ export default function Main() {
                     <span
                       key={index}
                       style={{
-                        background: "#ef4444",
+                        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                         color: "white",
                         padding: "4px 8px",
                         borderRadius: "4px",
@@ -493,7 +493,8 @@ export default function Main() {
                           color: "white",
                           cursor: "pointer",
                           padding: "0",
-                          fontSize: "12px"
+                          fontSize: "12px",
+                          opacity: 0.8
                         }}
                       >
                         ×
@@ -587,7 +588,7 @@ export default function Main() {
                     <span
                       key={index}
                       style={{
-                        background: "#ef4444",
+                        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                         color: "white",
                         padding: "4px 8px",
                         borderRadius: "4px",
@@ -606,7 +607,8 @@ export default function Main() {
                           color: "white",
                           cursor: "pointer",
                           padding: "0",
-                          fontSize: "12px"
+                          fontSize: "12px",
+                          opacity: 0.8
                         }}
                       >
                         ×
