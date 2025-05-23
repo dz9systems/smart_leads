@@ -282,12 +282,41 @@ export default function Main() {
                         background: "none",
                         border: "none",
                         cursor: "pointer",
-                        fontSize: "14px",
+                        fontSize: "16px",
                         color: "#6b7280",
-                        padding: "4px"
+                        padding: "4px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center"
                       }}
                     >
-                      {showApiKey ? "👁️" : "👁️‍🗨️"}
+                      <svg 
+                        width="16" 
+                        height="16" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                      >
+                        {showApiKey ? (
+                          // Eye open
+                          <>
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                          </>
+                        ) : (
+                          // Eye closed with slash
+                          <>
+                            <path d="m15 18-.722-3.25"/>
+                            <path d="m2 2 20 20"/>
+                            <path d="m9 9-.722-3.25"/>
+                            <path d="M17.5 15.5 22 12s-4-8-11-8a6.913 6.913 0 0 0-2.5.5"/>
+                            <path d="M9.5 8.5 2 12s4 8 11 8c.454 0 .898-.04 1.334-.117"/>
+                          </>
+                        )}
+                      </svg>
                     </button>
                   </div>
                   <button
