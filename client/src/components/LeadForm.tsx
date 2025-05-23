@@ -133,13 +133,6 @@ export default function LeadForm({ onLeadsGenerated }: LeadFormProps) {
           <label className={styles.label}>
             📞 Area Codes
           </label>
-          <input
-            type="text"
-            value={areaCodes}
-            onChange={(e) => setAreaCodes(e.target.value)}
-            placeholder="212, 718, 917 (comma separated)"
-            className={styles.input}
-          />
           {/* Display selected area codes as tags */}
           {areaCodes && (
             <div className={styles.multiSelect}>
@@ -275,7 +268,7 @@ export default function LeadForm({ onLeadsGenerated }: LeadFormProps) {
               <option value="804">804 - Richmond, VA</option>
             </optgroup>
           </select>
-          <p className={styles.hint}>Select from dropdown or type comma separated codes</p>
+          <p className={styles.hint}>Select area codes from dropdown - they'll appear as tags above</p>
         </div>
 
         {/* Email Domains */}
@@ -283,13 +276,6 @@ export default function LeadForm({ onLeadsGenerated }: LeadFormProps) {
           <label className={styles.label}>
             ✉️ Email Domains
           </label>
-          <input
-            type="text"
-            value={emailDomains}
-            onChange={(e) => setEmailDomains(e.target.value)}
-            placeholder="gmail.com, company.com (comma separated)"
-            className={styles.input}
-          />
           {/* Display selected email domains as tags */}
           {emailDomains && (
             <div className={styles.multiSelect}>
@@ -363,7 +349,7 @@ export default function LeadForm({ onLeadsGenerated }: LeadFormProps) {
               <option value="automotive.com">automotive.com</option>
             </optgroup>
           </select>
-          <p className={styles.hint}>Select from dropdown or type comma separated domains</p>
+          <p className={styles.hint}>Select email domains from dropdown - they'll appear as tags above</p>
         </div>
 
         {/* API Key Section */}
