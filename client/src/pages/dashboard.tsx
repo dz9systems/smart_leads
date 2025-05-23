@@ -79,10 +79,7 @@ export default function Dashboard() {
         <div style={{ 
           display: "grid", 
           gridTemplateColumns: "1fr 2fr", 
-          gap: "32px",
-          "@media (max-width: 768px)": {
-            gridTemplateColumns: "1fr"
-          }
+          gap: "32px"
         }}>
           {/* Lead Form */}
           <div>
