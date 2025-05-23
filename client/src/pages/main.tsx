@@ -292,17 +292,17 @@ export default function Main() {
                     borderRadius: "6px",
                     padding: "8px 12px",
                     fontSize: "12px",
-                    color: "#6b7280",
+                    color: "#3b82f6",
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     gap: "6px",
-                    marginBottom: showInstructions ? "12px" : "0"
+                    marginBottom: showInstructions ? "12px" : "0",
+                    textDecoration: "none"
                   }}
                 >
-                  {showInstructions ? "🔼" : "🔽"} 
-                  {showInstructions ? "Hide" : "Show"} API Key Instructions
+                  🔗 How to get your SERP API key {showInstructions ? "🔼" : "🔽"}
                 </button>
                 
                 {/* API Key Instructions */}
