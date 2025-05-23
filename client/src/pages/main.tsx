@@ -290,13 +290,13 @@ export default function Main() {
                     border: "none",
                     padding: "4px 0",
                     fontSize: "12px",
-                    color: "#3b82f6",
+                    color: "#4b5563",
                     cursor: "pointer",
-                    textDecoration: "underline",
+                    textDecoration: "none",
                     marginBottom: showInstructions ? "12px" : "0"
                   }}
                 >
-                  How to get your SERP API key
+                  🔗 How to get your SERP API key
                 </button>
                 
                 {/* API Key Instructions */}
