@@ -25,6 +25,7 @@ export default function Main() {
   // UI states
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
   
   // Search states
   const [keyword, setKeyword] = useState("");
@@ -280,35 +281,61 @@ export default function Main() {
                   </button>
                 </form>
                 
+                {/* Toggle Instructions Button */}
+                <button
+                  type="button"
+                  onClick={() => setShowInstructions(!showInstructions)}
+                  style={{
+                    width: "100%",
+                    background: "none",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "6px",
+                    padding: "8px 12px",
+                    fontSize: "12px",
+                    color: "#6b7280",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "6px",
+                    marginBottom: showInstructions ? "12px" : "0"
+                  }}
+                >
+                  {showInstructions ? "🔼" : "🔽"} 
+                  {showInstructions ? "Hide" : "Show"} API Key Instructions
+                </button>
+                
                 {/* API Key Instructions */}
-                <div style={{ 
-                  padding: "12px", 
-                  background: "#f8fafc", 
-                  borderRadius: "6px",
-                  border: "1px solid #e2e8f0",
-                  fontSize: "12px",
-                  color: "#4b5563"
-                }}>
-                  <h4 style={{ margin: "0 0 8px 0", color: "#1f2937", fontSize: "13px", fontWeight: "600" }}>
-                    🔗 How to get your SERP API key:
-                  </h4>
-                  <ol style={{ margin: "0", paddingLeft: "16px", lineHeight: "1.5" }}>
-                    <li>Visit <a href="https://serpapi.com" target="_blank" rel="noopener noreferrer" style={{ color: "#3b82f6", textDecoration: "none" }}>SerpApi.com</a></li>
-                    <li>Click "Sign up" and create your account</li>
-                    <li>Verify your email address</li>
-                    <li>Go to your dashboard and copy your API key</li>
-                    <li>Paste it above to start generating leads!</li>
-                  </ol>
+                {showInstructions && (
                   <div style={{ 
-                    marginTop: "8px", 
-                    padding: "6px 8px", 
-                    background: "#ddd6fe", 
-                    borderRadius: "4px",
-                    fontSize: "11px"
+                    padding: "12px", 
+                    background: "#f8fafc", 
+                    borderRadius: "6px",
+                    border: "1px solid #e2e8f0",
+                    fontSize: "12px",
+                    color: "#4b5563"
                   }}>
-                    <strong>💡 Free:</strong> SerpApi offers 100 free searches per month
+                    <h4 style={{ margin: "0 0 8px 0", color: "#1f2937", fontSize: "13px", fontWeight: "600" }}>
+                      🔗 How to get your SERP API key:
+                    </h4>
+                    <ol style={{ margin: "0", paddingLeft: "16px", lineHeight: "1.5" }}>
+                      <li>Visit <a href="https://serpapi.com" target="_blank" rel="noopener noreferrer" style={{ color: "#3b82f6", textDecoration: "none" }}>SerpApi.com</a></li>
+                      <li>Click "Sign up" and create your account</li>
+                      <li>Verify your email address</li>
+                      <li>Go to your dashboard and copy your API key</li>
+                      <li>Paste it above to start generating leads!</li>
+                    </ol>
+                    <div style={{ 
+                      marginTop: "8px", 
+                      padding: "6px 8px", 
+                      background: "#ddd6fe", 
+                      borderRadius: "4px",
+                      fontSize: "11px"
+                    }}>
+                      <strong>💡 Free:</strong> SerpApi offers 100 free searches per month
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </>
           )}
