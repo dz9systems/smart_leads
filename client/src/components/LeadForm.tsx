@@ -140,6 +140,27 @@ export default function LeadForm({ onLeadsGenerated }: LeadFormProps) {
             placeholder="212, 718, 917 (comma separated)"
             className={styles.input}
           />
+          {/* Display selected area codes as tags */}
+          {areaCodes && (
+            <div className={styles.multiSelect}>
+              {areaCodes.split(',').map(code => code.trim()).filter(Boolean).map((code, index) => (
+                <span key={index} className={styles.tag}>
+                  {code}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const codes = areaCodes.split(',').map(c => c.trim()).filter(Boolean);
+                      const updatedCodes = codes.filter(c => c !== code);
+                      setAreaCodes(updatedCodes.join(', '));
+                    }}
+                    style={{ marginLeft: '4px', background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
           <select 
             onChange={(e) => {
               if (e.target.value) {
@@ -269,6 +290,27 @@ export default function LeadForm({ onLeadsGenerated }: LeadFormProps) {
             placeholder="gmail.com, company.com (comma separated)"
             className={styles.input}
           />
+          {/* Display selected email domains as tags */}
+          {emailDomains && (
+            <div className={styles.multiSelect}>
+              {emailDomains.split(',').map(domain => domain.trim()).filter(Boolean).map((domain, index) => (
+                <span key={index} className={styles.tag}>
+                  {domain}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const domains = emailDomains.split(',').map(d => d.trim()).filter(Boolean);
+                      const updatedDomains = domains.filter(d => d !== domain);
+                      setEmailDomains(updatedDomains.join(', '));
+                    }}
+                    style={{ marginLeft: '4px', background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
           <select 
             onChange={(e) => {
               if (e.target.value) {
