@@ -82,7 +82,7 @@ export default function LeadsTable({ leads, searchLocation }: LeadsTableProps) {
       "Pet Grooming": "🐾",
       "Bakery": "🍞",
     };
-    return iconMap[category || ""] || "🏢";
+    return iconMap[category || ""] || "";
   };
 
   return (
@@ -126,7 +126,7 @@ export default function LeadsTable({ leads, searchLocation }: LeadsTableProps) {
       <div>
         {filteredLeads.length === 0 ? (
           <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>🏢</div>
+            <div className={styles.emptyIcon}>📊</div>
             <h3 className={styles.emptyTitle}>No leads found</h3>
             <p className={styles.emptySubtitle}>
               {safeLeads.length === 0 
