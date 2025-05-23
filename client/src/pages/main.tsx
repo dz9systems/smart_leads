@@ -24,8 +24,10 @@ export default function Main() {
   
   // Search states
   const [keyword, setKeyword] = useState("");
-  const [areaCodes, setAreaCodes] = useState("");
-  const [emailDomains, setEmailDomains] = useState("@gmail.com, @yahoo.com, @outlook.com, @icloud.com, @aol.com, @hotmail.com");
+  const [selectedAreaCodes, setSelectedAreaCodes] = useState<string[]>([]);
+  const [selectedEmailDomains, setSelectedEmailDomains] = useState<string[]>(["@gmail.com", "@yahoo.com", "@outlook.com", "@icloud.com", "@aol.com", "@hotmail.com"]);
+  const [areaCodeInput, setAreaCodeInput] = useState("");
+  const [emailDomainInput, setEmailDomainInput] = useState("");
 
   const handleApiKeySubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,6 +43,44 @@ export default function Main() {
       console.log("Premium signup:", { email, password });
       alert("Premium signup submitted! (Demo)");
       setShowSignup(false);
+    }
+  };
+
+  const addAreaCode = (code: string) => {
+    const trimmedCode = code.trim();
+    if (trimmedCode && !selectedAreaCodes.includes(trimmedCode)) {
+      setSelectedAreaCodes([...selectedAreaCodes, trimmedCode]);
+    }
+    setAreaCodeInput("");
+  };
+
+  const removeAreaCode = (code: string) => {
+    setSelectedAreaCodes(selectedAreaCodes.filter(c => c !== code));
+  };
+
+  const addEmailDomain = (domain: string) => {
+    const trimmedDomain = domain.trim();
+    if (trimmedDomain && !selectedEmailDomains.includes(trimmedDomain)) {
+      setSelectedEmailDomains([...selectedEmailDomains, trimmedDomain]);
+    }
+    setEmailDomainInput("");
+  };
+
+  const removeEmailDomain = (domain: string) => {
+    setSelectedEmailDomains(selectedEmailDomains.filter(d => d !== domain));
+  };
+
+  const handleAreaCodeKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && areaCodeInput.trim()) {
+      e.preventDefault();
+      addAreaCode(areaCodeInput);
+    }
+  };
+
+  const handleEmailDomainKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && emailDomainInput.trim()) {
+      e.preventDefault();
+      addEmailDomain(emailDomainInput);
     }
   };
 
@@ -63,8 +103,8 @@ export default function Main() {
       // Simulate API call - replace with actual SERP API integration
       const searchData = {
         keyword: keyword.trim(),
-        areaCodes: areaCodes.split(',').map(code => code.trim()).filter(Boolean),
-        emailDomains: emailDomains.split(',').map(domain => domain.trim()).filter(Boolean),
+        areaCodes: selectedAreaCodes,
+        emailDomains: selectedEmailDomains,
         apiKey: apiKey.trim() || undefined,
       };
 
@@ -90,7 +130,7 @@ export default function Main() {
   const generateMockLeads = (keyword: string, count: number): Lead[] => {
     const businessTypes = ["Restaurant", "Coffee Shop", "Retail Store", "Fitness Center", "Hair Salon", "Dental Office", "Law Firm", "Auto Repair", "Pet Grooming", "Bakery"];
     const cities = ["New York, NY", "Los Angeles, CA", "Chicago, IL", "Houston, TX", "Phoenix, AZ", "Philadelphia, PA", "San Antonio, TX", "San Diego, CA", "Dallas, TX", "San Jose, CA"];
-    const domains = emailDomains.split(',').map(d => d.trim().replace('@', ''));
+    const domains = selectedEmailDomains.map(d => d.replace('@', ''));
     
     return Array.from({ length: count }, (_, i) => {
       const businessType = businessTypes[Math.floor(Math.random() * businessTypes.length)];
@@ -289,40 +329,135 @@ export default function Main() {
 
               <div style={{ marginBottom: "16px" }}>
                 <label style={{ display: "block", fontSize: "14px", fontWeight: "500", color: "#374151", marginBottom: "6px" }}>
-                  Area Codes
+                  Select Area Codes (optional)
                 </label>
-                <input
-                  type="text"
-                  value={areaCodes}
-                  onChange={(e) => setAreaCodes(e.target.value)}
-                  placeholder="212, 718, 917"
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    border: "1px solid #d1d5db",
-                    borderRadius: "6px",
-                    fontSize: "14px"
-                  }}
-                />
+                <div style={{
+                  border: "1px solid #d1d5db",
+                  borderRadius: "6px",
+                  padding: "8px",
+                  minHeight: "44px",
+                  backgroundColor: "#1f2937",
+                  color: "white"
+                }}>
+                  {/* Selected Tags */}
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: selectedAreaCodes.length > 0 ? "8px" : "0" }}>
+                    {selectedAreaCodes.map((code, index) => (
+                      <span
+                        key={index}
+                        style={{
+                          background: "#ef4444",
+                          color: "white",
+                          padding: "4px 8px",
+                          borderRadius: "4px",
+                          fontSize: "12px",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "4px"
+                        }}
+                      >
+                        {code}
+                        <button
+                          onClick={() => removeAreaCode(code)}
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "white",
+                            cursor: "pointer",
+                            padding: "0",
+                            fontSize: "12px"
+                          }}
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                  {/* Input */}
+                  <input
+                    type="text"
+                    value={areaCodeInput}
+                    onChange={(e) => setAreaCodeInput(e.target.value)}
+                    onKeyPress={handleAreaCodeKeyPress}
+                    placeholder={selectedAreaCodes.length === 0 ? "Type area code and press Enter..." : "Add another..."}
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      outline: "none",
+                      color: "white",
+                      fontSize: "14px",
+                      width: "100%"
+                    }}
+                  />
+                </div>
+                {selectedAreaCodes.length > 0 && (
+                  <div style={{ fontSize: "12px", color: "#6b7280", marginTop: "4px" }}>
+                    Selected Area Codes: {selectedAreaCodes.join(", ")}
+                  </div>
+                )}
               </div>
 
               <div style={{ marginBottom: "20px" }}>
                 <label style={{ display: "block", fontSize: "14px", fontWeight: "500", color: "#374151", marginBottom: "6px" }}>
-                  Email Domains
+                  Select email domains to search for
                 </label>
-                <textarea
-                  value={emailDomains}
-                  onChange={(e) => setEmailDomains(e.target.value)}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    border: "1px solid #d1d5db",
-                    borderRadius: "6px",
-                    fontSize: "14px",
-                    minHeight: "80px",
-                    resize: "vertical"
-                  }}
-                />
+                <div style={{
+                  border: "1px solid #d1d5db",
+                  borderRadius: "6px",
+                  padding: "8px",
+                  minHeight: "44px",
+                  backgroundColor: "#1f2937",
+                  color: "white"
+                }}>
+                  {/* Selected Tags */}
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: selectedEmailDomains.length > 0 ? "8px" : "0" }}>
+                    {selectedEmailDomains.map((domain, index) => (
+                      <span
+                        key={index}
+                        style={{
+                          background: "#ef4444",
+                          color: "white",
+                          padding: "4px 8px",
+                          borderRadius: "4px",
+                          fontSize: "12px",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "4px"
+                        }}
+                      >
+                        {domain}
+                        <button
+                          onClick={() => removeEmailDomain(domain)}
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "white",
+                            cursor: "pointer",
+                            padding: "0",
+                            fontSize: "12px"
+                          }}
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                  {/* Input */}
+                  <input
+                    type="text"
+                    value={emailDomainInput}
+                    onChange={(e) => setEmailDomainInput(e.target.value)}
+                    onKeyPress={handleEmailDomainKeyPress}
+                    placeholder="Type domain and press Enter (e.g., @company.com)..."
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      outline: "none",
+                      color: "white",
+                      fontSize: "14px",
+                      width: "100%"
+                    }}
+                  />
+                </div>
               </div>
 
               <button
