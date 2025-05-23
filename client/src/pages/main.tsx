@@ -182,7 +182,7 @@ export default function Main() {
       <div style={{ display: "flex", minHeight: "calc(100vh - 80px)" }}>
         {/* Sidebar */}
         <div style={{ 
-          width: "320px", 
+          width: "280px", 
           background: "white", 
           borderRight: "1px solid #e5e7eb",
           padding: "24px"
@@ -300,189 +300,300 @@ export default function Main() {
               </form>
             )}
           </div>
+        </div>
 
-          {/* Search Form */}
-          <div>
-            <h3 style={{ margin: "0 0 16px 0", color: "#1f2937", fontSize: "16px", fontWeight: "600" }}>
-              🔍 Search Leads
-            </h3>
+        {/* Main Content */}
+        <div style={{ flex: 1, padding: "24px" }}>
+          {/* Search Form at Top */}
+          <div style={{ 
+            background: "white", 
+            borderRadius: "12px", 
+            padding: "24px", 
+            marginBottom: "24px",
+            boxShadow: "0 1px 3px rgba(0,0,0,0.1)"
+          }}>
+            <h2 style={{ margin: "0 0 20px 0", color: "#1f2937", fontSize: "20px", fontWeight: "600" }}>
+              🔍 Generate Business Leads
+            </h2>
+            
             <form onSubmit={handleSearch}>
-              <div style={{ marginBottom: "16px" }}>
-                <label style={{ display: "block", fontSize: "14px", fontWeight: "500", color: "#374151", marginBottom: "6px" }}>
-                  Keyword
-                </label>
-                <input
-                  type="text"
-                  value={keyword}
-                  onChange={(e) => setKeyword(e.target.value)}
-                  placeholder="e.g., restaurant, dentist, lawyer"
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    border: "1px solid #d1d5db",
-                    borderRadius: "6px",
-                    fontSize: "14px"
-                  }}
-                  required
-                />
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "20px", marginBottom: "20px" }}>
+                
+                {/* Keywords Dropdown */}
+                <div>
+                  <label style={{ display: "block", fontSize: "14px", fontWeight: "500", color: "#374151", marginBottom: "6px" }}>
+                    Search Keywords
+                  </label>
+                  <select
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      border: "1px solid #d1d5db",
+                      borderRadius: "6px",
+                      fontSize: "14px",
+                      backgroundColor: "white"
+                    }}
+                    required
+                  >
+                    <option value="">Select a business type...</option>
+                    <optgroup label="Food & Restaurants">
+                      <option value="restaurant">Restaurant</option>
+                      <option value="pizza">Pizza Shop</option>
+                      <option value="coffee shop">Coffee Shop</option>
+                      <option value="bakery">Bakery</option>
+                      <option value="food truck">Food Truck</option>
+                      <option value="catering">Catering</option>
+                    </optgroup>
+                    <optgroup label="Health & Medical">
+                      <option value="dentist">Dentist</option>
+                      <option value="doctor">Doctor</option>
+                      <option value="chiropractor">Chiropractor</option>
+                      <option value="physical therapy">Physical Therapy</option>
+                      <option value="veterinarian">Veterinarian</option>
+                      <option value="pharmacy">Pharmacy</option>
+                    </optgroup>
+                    <optgroup label="Professional Services">
+                      <option value="lawyer">Lawyer</option>
+                      <option value="accountant">Accountant</option>
+                      <option value="real estate agent">Real Estate Agent</option>
+                      <option value="insurance agent">Insurance Agent</option>
+                      <option value="financial advisor">Financial Advisor</option>
+                    </optgroup>
+                    <optgroup label="Home & Auto Services">
+                      <option value="plumber">Plumber</option>
+                      <option value="electrician">Electrician</option>
+                      <option value="contractor">Contractor</option>
+                      <option value="auto repair">Auto Repair</option>
+                      <option value="locksmith">Locksmith</option>
+                      <option value="landscaping">Landscaping</option>
+                    </optgroup>
+                    <optgroup label="Beauty & Wellness">
+                      <option value="hair salon">Hair Salon</option>
+                      <option value="spa">Spa</option>
+                      <option value="nail salon">Nail Salon</option>
+                      <option value="fitness center">Fitness Center</option>
+                      <option value="yoga studio">Yoga Studio</option>
+                    </optgroup>
+                    <optgroup label="Retail & Shopping">
+                      <option value="clothing store">Clothing Store</option>
+                      <option value="electronics store">Electronics Store</option>
+                      <option value="jewelry store">Jewelry Store</option>
+                      <option value="bookstore">Bookstore</option>
+                      <option value="pet store">Pet Store</option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                {/* Area Codes Dropdown */}
+                <div>
+                  <label style={{ display: "block", fontSize: "14px", fontWeight: "500", color: "#374151", marginBottom: "6px" }}>
+                    Area Codes (Optional)
+                  </label>
+                  <select
+                    value=""
+                    onChange={(e) => {
+                      if (e.target.value && !selectedAreaCodes.includes(e.target.value)) {
+                        setSelectedAreaCodes([...selectedAreaCodes, e.target.value]);
+                      }
+                    }}
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      border: "1px solid #d1d5db",
+                      borderRadius: "6px",
+                      fontSize: "14px",
+                      backgroundColor: "white"
+                    }}
+                  >
+                    <option value="">Select area codes...</option>
+                    <optgroup label="California">
+                      <option value="213">213 - Los Angeles</option>
+                      <option value="310">310 - Beverly Hills, Santa Monica</option>
+                      <option value="415">415 - San Francisco</option>
+                      <option value="510">510 - Oakland, Berkeley</option>
+                      <option value="619">619 - San Diego</option>
+                      <option value="714">714 - Orange County</option>
+                      <option value="818">818 - San Fernando Valley</option>
+                    </optgroup>
+                    <optgroup label="New York">
+                      <option value="212">212 - Manhattan</option>
+                      <option value="347">347 - Brooklyn, Bronx, Queens</option>
+                      <option value="516">516 - Long Island</option>
+                      <option value="585">585 - Rochester</option>
+                      <option value="631">631 - Suffolk County</option>
+                      <option value="718">718 - Brooklyn, Bronx, Queens</option>
+                      <option value="914">914 - Westchester</option>
+                    </optgroup>
+                    <optgroup label="Texas">
+                      <option value="214">214 - Dallas</option>
+                      <option value="281">281 - Houston</option>
+                      <option value="409">409 - Beaumont</option>
+                      <option value="512">512 - Austin</option>
+                      <option value="713">713 - Houston</option>
+                      <option value="817">817 - Fort Worth</option>
+                      <option value="903">903 - Tyler</option>
+                    </optgroup>
+                    <optgroup label="Florida">
+                      <option value="305">305 - Miami</option>
+                      <option value="321">321 - Orlando</option>
+                      <option value="407">407 - Orlando</option>
+                      <option value="561">561 - West Palm Beach</option>
+                      <option value="727">727 - St. Petersburg</option>
+                      <option value="813">813 - Tampa</option>
+                      <option value="954">954 - Fort Lauderdale</option>
+                    </optgroup>
+                    <optgroup label="Illinois">
+                      <option value="312">312 - Chicago</option>
+                      <option value="630">630 - Chicago Suburbs</option>
+                      <option value="708">708 - Chicago Suburbs</option>
+                      <option value="773">773 - Chicago</option>
+                      <option value="815">815 - Rockford</option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                {/* Email Domains Dropdown */}
+                <div>
+                  <label style={{ display: "block", fontSize: "14px", fontWeight: "500", color: "#374151", marginBottom: "6px" }}>
+                    Email Domains
+                  </label>
+                  <select
+                    value=""
+                    onChange={(e) => {
+                      if (e.target.value && !selectedEmailDomains.includes(e.target.value)) {
+                        setSelectedEmailDomains([...selectedEmailDomains, e.target.value]);
+                      }
+                    }}
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      border: "1px solid #d1d5db",
+                      borderRadius: "6px",
+                      fontSize: "14px",
+                      backgroundColor: "white"
+                    }}
+                  >
+                    <option value="">Add email domains...</option>
+                    <option value="@gmail.com">@gmail.com</option>
+                    <option value="@yahoo.com">@yahoo.com</option>
+                    <option value="@outlook.com">@outlook.com</option>
+                    <option value="@icloud.com">@icloud.com</option>
+                    <option value="@aol.com">@aol.com</option>
+                    <option value="@hotmail.com">@hotmail.com</option>
+                    <option value="@comcast.net">@comcast.net</option>
+                    <option value="@verizon.net">@verizon.net</option>
+                  </select>
+                </div>
               </div>
 
-              <div style={{ marginBottom: "16px" }}>
-                <label style={{ display: "block", fontSize: "14px", fontWeight: "500", color: "#374151", marginBottom: "6px" }}>
-                  Select Area Codes (optional)
-                </label>
-                <div style={{
-                  border: "1px solid #d1d5db",
-                  borderRadius: "6px",
-                  padding: "8px",
-                  minHeight: "44px",
-                  backgroundColor: "#1f2937",
-                  color: "white"
-                }}>
-                  {/* Selected Tags */}
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: selectedAreaCodes.length > 0 ? "8px" : "0" }}>
-                    {selectedAreaCodes.map((code, index) => (
-                      <span
-                        key={index}
-                        style={{
-                          background: "#ef4444",
-                          color: "white",
-                          padding: "4px 8px",
-                          borderRadius: "4px",
-                          fontSize: "12px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "4px"
-                        }}
-                      >
-                        {code}
-                        <button
-                          onClick={() => removeAreaCode(code)}
+              {/* Selected Tags Display */}
+              <div style={{ marginBottom: "20px" }}>
+                {selectedAreaCodes.length > 0 && (
+                  <div style={{ marginBottom: "12px" }}>
+                    <span style={{ fontSize: "14px", fontWeight: "500", color: "#374151", marginRight: "8px" }}>
+                      Selected Area Codes:
+                    </span>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "4px" }}>
+                      {selectedAreaCodes.map((code, index) => (
+                        <span
+                          key={index}
                           style={{
-                            background: "none",
-                            border: "none",
+                            background: "#ef4444",
                             color: "white",
-                            cursor: "pointer",
-                            padding: "0",
-                            fontSize: "12px"
+                            padding: "4px 8px",
+                            borderRadius: "4px",
+                            fontSize: "12px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px"
                           }}
                         >
-                          ×
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                  {/* Input */}
-                  <input
-                    type="text"
-                    value={areaCodeInput}
-                    onChange={(e) => setAreaCodeInput(e.target.value)}
-                    onKeyPress={handleAreaCodeKeyPress}
-                    placeholder={selectedAreaCodes.length === 0 ? "Type area code and press Enter..." : "Add another..."}
-                    style={{
-                      background: "transparent",
-                      border: "none",
-                      outline: "none",
-                      color: "white",
-                      fontSize: "14px",
-                      width: "100%"
-                    }}
-                  />
-                </div>
-                {selectedAreaCodes.length > 0 && (
-                  <div style={{ fontSize: "12px", color: "#6b7280", marginTop: "4px" }}>
-                    Selected Area Codes: {selectedAreaCodes.join(", ")}
+                          {code}
+                          <button
+                            onClick={() => removeAreaCode(code)}
+                            style={{
+                              background: "none",
+                              border: "none",
+                              color: "white",
+                              cursor: "pointer",
+                              padding: "0",
+                              fontSize: "12px"
+                            }}
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 )}
-              </div>
 
-              <div style={{ marginBottom: "20px" }}>
-                <label style={{ display: "block", fontSize: "14px", fontWeight: "500", color: "#374151", marginBottom: "6px" }}>
-                  Select email domains to search for
-                </label>
-                <div style={{
-                  border: "1px solid #d1d5db",
-                  borderRadius: "6px",
-                  padding: "8px",
-                  minHeight: "44px",
-                  backgroundColor: "#1f2937",
-                  color: "white"
-                }}>
-                  {/* Selected Tags */}
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: selectedEmailDomains.length > 0 ? "8px" : "0" }}>
-                    {selectedEmailDomains.map((domain, index) => (
-                      <span
-                        key={index}
-                        style={{
-                          background: "#ef4444",
-                          color: "white",
-                          padding: "4px 8px",
-                          borderRadius: "4px",
-                          fontSize: "12px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "4px"
-                        }}
-                      >
-                        {domain}
-                        <button
-                          onClick={() => removeEmailDomain(domain)}
+                {selectedEmailDomains.length > 0 && (
+                  <div>
+                    <span style={{ fontSize: "14px", fontWeight: "500", color: "#374151", marginRight: "8px" }}>
+                      Selected Email Domains:
+                    </span>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "4px" }}>
+                      {selectedEmailDomains.map((domain, index) => (
+                        <span
+                          key={index}
                           style={{
-                            background: "none",
-                            border: "none",
+                            background: "#ef4444",
                             color: "white",
-                            cursor: "pointer",
-                            padding: "0",
-                            fontSize: "12px"
+                            padding: "4px 8px",
+                            borderRadius: "4px",
+                            fontSize: "12px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px"
                           }}
                         >
-                          ×
-                        </button>
-                      </span>
-                    ))}
+                          {domain}
+                          <button
+                            onClick={() => removeEmailDomain(domain)}
+                            style={{
+                              background: "none",
+                              border: "none",
+                              color: "white",
+                              cursor: "pointer",
+                              padding: "0",
+                              fontSize: "12px"
+                            }}
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  {/* Input */}
-                  <input
-                    type="text"
-                    value={emailDomainInput}
-                    onChange={(e) => setEmailDomainInput(e.target.value)}
-                    onKeyPress={handleEmailDomainKeyPress}
-                    placeholder="Type domain and press Enter (e.g., @company.com)..."
-                    style={{
-                      background: "transparent",
-                      border: "none",
-                      outline: "none",
-                      color: "white",
-                      fontSize: "14px",
-                      width: "100%"
-                    }}
-                  />
-                </div>
+                )}
               </div>
 
               <button
                 type="submit"
                 disabled={isLoading}
                 style={{
-                  width: "100%",
                   background: isLoading ? "#9ca3af" : "#10b981",
                   color: "white",
                   border: "none",
-                  padding: "12px",
-                  borderRadius: "6px",
-                  fontSize: "14px",
+                  padding: "14px 32px",
+                  borderRadius: "8px",
+                  fontSize: "16px",
                   fontWeight: "600",
-                  cursor: isLoading ? "not-allowed" : "pointer"
+                  cursor: isLoading ? "not-allowed" : "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px"
                 }}
               >
-                {isLoading ? "Generating..." : "🚀 Generate Leads"}
+                {isLoading ? "🔄 Generating..." : "🚀 Generate Leads"}
               </button>
             </form>
           </div>
-        </div>
 
-        {/* Main Content */}
-        <div style={{ flex: 1, padding: "24px" }}>
+          {/* Results */}
           <LeadsTable 
             leads={leads} 
             searchLocation="Search Results" 
@@ -498,7 +609,7 @@ export default function Main() {
               <div style={{ fontSize: "64px", marginBottom: "16px" }}>🎯</div>
               <h3 style={{ margin: "0 0 8px 0", color: "#1f2937" }}>Ready to Generate Leads?</h3>
               <p style={{ margin: 0 }}>
-                Enter a keyword and search parameters in the sidebar to get started
+                Select a business type and search parameters above to get started
               </p>
             </div>
           )}
