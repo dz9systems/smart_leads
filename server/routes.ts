@@ -11,14 +11,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const requestData = insertLeadRequestSchema.parse(req.body);
       
-      // Determine which API key to use - user's key or backend key
-      const apiKeyToUse = requestData.apiKey || process.env.SERPAPI_KEY;
+      // Check if user has premium access (simplified check - you can enhance this)
+      const hasPremiumAccess = requestData.email && requestData.email.includes('@'); // Basic check for premium signup
+      
+      // Determine which API key to use
+      let apiKeyToUse = requestData.apiKey;
+      
+      // Only use backend SERPAPI_KEY for premium users
+      if (!apiKeyToUse && hasPremiumAccess) {
+        apiKeyToUse = process.env.SERPAPI_KEY;
+      }
       
       // Check if we have an API key to use
       if (!apiKeyToUse) {
         return res.status(400).json({ 
-          message: "API key required. Please provide your SERP API key or upgrade to premium.",
-          error: "NO_API_KEY"
+          message: "API key required. Please provide your SERP API key or upgrade to premium for automatic access.",
+          error: "NO_API_KEY",
+          requiresPremium: !hasPremiumAccess
         });
       }
 
