@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./LeadsTable.module.css";
-import { downloadCSV } from "../utils/downloadCSV";
+import { downloadCSV } from "../../utils/downloadCSV";
 
 interface Lead {
   id: number;
