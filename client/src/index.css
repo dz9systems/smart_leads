@@ -11,12 +11,23 @@ body {
   color: #1f2937;
   line-height: 1.6;
 }
+.logo{
+  font-size: 1.5rem;
+}
+
+
+/* Reset default styles for common elements */
 
 /* Basic responsive grid */
 @media (max-width: 768px) {
   .grid-responsive {
     grid-template-columns: 1fr !important;
   }
+
+  .logo{
+  font-size: 1rem;
+}
+
 }
 
 /* Button styles */
@@ -35,6 +46,16 @@ button:disabled {
   cursor: not-allowed;
   transform: none;
 }
+
+.premium-button {
+  background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 12px 12px;
+  border-radius:8px;
+  color:white;
+  cursor: pointer;
+  border: none;
+}
+
 
 /* Input styles */
 input {
@@ -174,8 +195,25 @@ th {
   .hidden-mobile {
     display: none;
   }
-  
+
   .mobile-stack {
     flex-direction: column;
+  }
+
+  .generate-leads {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .premium-button {
+  background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 12px 12px;
+  border-radius:8px;
+  color:white;
+  cursor: pointer;
+  font-size: 11px;
+  border: none;
   }
 }

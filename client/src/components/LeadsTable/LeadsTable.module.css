@@ -6,6 +6,8 @@
   overflow: hidden;
 }
 
+
+
 .header {
   padding: 24px;
   border-bottom: 1px solid #e5e7eb;
@@ -315,4 +317,136 @@
 .ellipsis {
   padding: 0 8px;
   color: #6b7280;
+}
+
+
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+    padding: 16px;
+  }
+
+
+
+  .headerLeft {
+    justify-content: center;
+  }
+
+  .headerRight {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+
+  .downloadButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .tableHeaderCell,
+  .tableCell {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .businessInfo {
+    gap: 8px;
+  }
+
+  .businessIcon {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .businessName {
+    font-size: 13px;
+  }
+
+  .businessCategory {
+    font-size: 11px;
+  }
+
+  .contactText {
+    font-size: 12px;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .paginationControls {
+    justify-content: center;
+  }
+
+  .paginationButton,
+  .pageButton {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .emptyState {
+    padding: 32px 16px;
+  }
+
+  .emptyIcon {
+    font-size: 36px;
+  }
+
+  .emptyTitle {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    border-radius: 6px;
+    margin: 0 -8px;
+  }
+
+  .header {
+    padding: 12px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+  }
+
+  .table {
+    font-size: 11px;
+  }
+
+  .tableHeaderCell,
+  .tableCell {
+    padding: 6px 8px;
+  }
+
+  .businessIcon {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .pagination {
+    padding: 8px 12px;
+  }
 }

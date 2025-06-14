@@ -202,43 +202,15 @@ return (
         padding: "16px 24px"
       }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div style={{
-              width: "32px",
-              height: "32px",
-              background: "#3b82f6",
-              borderRadius: "8px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontSize: "16px"
-            }}>
-              🎯
-            </div>
-            <h1 style={{ fontSize: "24px", fontWeight: "600", color: "#1f2937", margin: 0 }}>
+          <div className="logo-container" style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <div className="logo-icon" > 🎯 </div>
+            <h1 className="logo">
               Smart Leads
             </h1>
           </div>
 
           {/* Premium Button */}
-          <button
-            onClick={() => setShowPremiumModal(true)}
-            style={{
-              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-              color: "white",
-              border: "none",
-              padding: "12px 20px",
-              borderRadius: "8px",
-              fontSize: "14px",
-              fontWeight: "600",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
-            }}
-          >
+          <button className="premium-button" onClick={() => setShowPremiumModal(true)} >
             💎 Upgrade to Premium
           </button>
         </div>
@@ -731,6 +703,7 @@ return (
 
               <button
                 type="submit"
+                className='generate-leads'
                 disabled={isLoading}
                 style={{
                   background: isLoading ? "#9ca3af" : "#10b981",
