@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LeadsTable from "../components/LeadsTable/LeadsTable";
 
 interface Lead {
@@ -15,25 +15,41 @@ interface Lead {
 export default function Main() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  
+  const [leadCount, setLeadCount] = useState("50");
+
   // Auth states
   const [apiKey, setApiKey] = useState(localStorage.getItem("serpApiKey") || "");
   const [showSignup, setShowSignup] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
   // UI states
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
-  
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
   // Search states
-  const [keyword, setKeyword] = useState("");
-  const [selectedAreaCodes, setSelectedAreaCodes] = useState<string[]>([]);
+  const [keyword, setKeyword] = useState("lawyer");
+  const [selectedAreaCodes, setSelectedAreaCodes] = useState<string[]>(["415", "510", "951", "213"]);
   const [selectedEmailDomains, setSelectedEmailDomains] = useState<string[]>(["@gmail.com", "@yahoo.com", "@outlook.com", "@icloud.com", "@aol.com", "@hotmail.com"]);
   const [areaCodeInput, setAreaCodeInput] = useState("");
   const [emailDomainInput, setEmailDomainInput] = useState("");
+
+  // Handle responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (mobile && !sidebarCollapsed) {
+        setSidebarCollapsed(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [sidebarCollapsed]);
 
   const handleApiKeySubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,57 +108,71 @@ export default function Main() {
     }
   };
 
+
+  // Search function to generate leads
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!keyword.trim()) {
       alert("Please enter a keyword to search");
       return;
     }
 
-    // API key is now optional - backend will use server key if user doesn't provide one
-
     setIsLoading(true);
 
     try {
-      // Simulate API call - replace with actual SERP API integration
       const searchData = {
-        keyword: keyword.trim(),
+        query: keyword.trim(),
+        location: "San Francisco, CA",
         areaCodes: selectedAreaCodes,
         emailDomains: selectedEmailDomains,
         apiKey: apiKey.trim() || undefined,
+        email: apiKey.trim() ? undefined : "free@user.com",
+        limit: leadCount // ✅ pass this to backend
       };
 
-      // Mock lead generation for demo
-      const mockLeads = generateMockLeads(keyword, 10);
-      
-      const leadsWithTimestamp = mockLeads.map(lead => ({
+      console.log("Sending to backend:", searchData);
+
+      const response = await fetch("/api/scrape", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(searchData)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        alert(result.message || "Something went wrong.");
+        return;
+      }
+
+      const leadsWithTimestamp = result.leads.map((lead: Lead) => ({
         ...lead,
         createdAt: new Date().toISOString()
       }));
-      
-      setLeads(prevLeads => [...leadsWithTimestamp, ...prevLeads]);
-      alert(`Generated ${mockLeads.length} leads for "${keyword}"`);
-      
-    } catch (error) {
-      console.error("Search error:", error);
+
+      setLeads(prev => [...leadsWithTimestamp, ...prev]);
+      // alert(result.message || `Generated ${result.leads.length} leads.`);
+    } catch (err) {
+      console.error("Search error:", err);
       alert("Failed to generate leads. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
+
   const generateMockLeads = (keyword: string, count: number): Lead[] => {
     const businessTypes = ["Restaurant", "Coffee Shop", "Retail Store", "Fitness Center", "Hair Salon", "Dental Office", "Law Firm", "Auto Repair", "Pet Grooming", "Bakery"];
     const cities = ["New York, NY", "Los Angeles, CA", "Chicago, IL", "Houston, TX", "Phoenix, AZ", "Philadelphia, PA", "San Antonio, TX", "San Diego, CA", "Dallas, TX", "San Jose, CA"];
     const domains = selectedEmailDomains.map(d => d.replace('@', ''));
-    
+
     return Array.from({ length: count }, (_, i) => {
       const businessType = businessTypes[Math.floor(Math.random() * businessTypes.length)];
       const city = cities[Math.floor(Math.random() * cities.length)];
       const domain = domains[Math.floor(Math.random() * domains.length)];
       const businessName = `${keyword} ${businessType} ${i + 1}`;
-      
+
       return {
         id: Date.now() + i,
         businessName,
@@ -154,8 +184,7 @@ export default function Main() {
       };
     });
   };
-
-  return (
+return (
     <div style={{ minHeight: "100vh", backgroundColor: "#fafafa", fontFamily: "Inter, sans-serif" }}>
       {/* Hide scrollbar styles */}
       <style>
@@ -166,21 +195,21 @@ export default function Main() {
         `}
       </style>
       {/* Header */}
-      <header style={{ 
-        background: "white", 
-        boxShadow: "0 1px 3px rgba(0,0,0,0.1)", 
+      <header style={{
+        background: "white",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
         borderBottom: "1px solid #e5e7eb",
         padding: "16px 24px"
       }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div style={{ 
-              width: "32px", 
-              height: "32px", 
-              background: "#3b82f6", 
-              borderRadius: "8px", 
-              display: "flex", 
-              alignItems: "center", 
+            <div style={{
+              width: "32px",
+              height: "32px",
+              background: "#3b82f6",
+              borderRadius: "8px",
+              display: "flex",
+              alignItems: "center",
               justifyContent: "center",
               color: "white",
               fontSize: "16px"
@@ -191,7 +220,7 @@ export default function Main() {
               Smart Leads
             </h1>
           </div>
-          
+
           {/* Premium Button */}
           <button
             onClick={() => setShowPremiumModal(true)}
@@ -215,15 +244,20 @@ export default function Main() {
         </div>
       </header>
 
-      <div style={{ display: "flex", minHeight: "calc(100vh - 80px)" }}>
+      <div style={{ display: "flex", minHeight: isMobile ? "auto" : "calc(100vh - 80px)" }}>
         {/* Sidebar */}
-        <div style={{ 
-          width: sidebarCollapsed ? "60px" : "280px", 
-          background: "white", 
-          borderRight: "1px solid #e5e7eb",
-          padding: sidebarCollapsed ? "12px" : "24px",
-          transition: "width 0.3s ease, padding 0.3s ease",
-          position: "relative"
+        <div style={{
+          width: sidebarCollapsed ? (isMobile ? "0px" : "60px") : (isMobile ? "100vw" : "280px"),
+          background: "white",
+          borderRight: sidebarCollapsed ? "none" : "1px solid #e5e7eb",
+          padding: sidebarCollapsed ? (isMobile ? "0px" : "12px") : (isMobile ? "16px" : "24px"),
+          transition: "all 0.3s ease",
+          position: isMobile ? "fixed" : "relative",
+          top: isMobile ? "0" : "auto",
+          left: isMobile ? "0" : "auto",
+          height: isMobile ? "100vh" : "auto",
+          zIndex: isMobile ? 200 : "auto",
+          overflow: sidebarCollapsed && isMobile ? "hidden" : "auto"
         }}>
           {/* Collapse/Expand Button */}
           <button
@@ -287,14 +321,14 @@ export default function Main() {
                         justifyContent: "center"
                       }}
                     >
-                      <svg 
-                        width="16" 
-                        height="16" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        strokeWidth="2" 
-                        strokeLinecap="round" 
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
                         strokeLinejoin="round"
                       >
                         {showApiKey ? (
@@ -332,7 +366,7 @@ export default function Main() {
                     Save API Key
                   </button>
                 </form>
-                
+
                 {/* Toggle Instructions Link */}
                 <button
                   type="button"
@@ -350,12 +384,12 @@ export default function Main() {
                 >
                   🔗 How to get your SERP API key
                 </button>
-                
+
                 {/* API Key Instructions */}
                 {showInstructions && (
-                  <div style={{ 
-                    padding: "12px", 
-                    background: "#f8fafc", 
+                  <div style={{
+                    padding: "12px",
+                    background: "#f8fafc",
                     borderRadius: "6px",
                     border: "1px solid #e2e8f0",
                     fontSize: "12px",
@@ -368,10 +402,10 @@ export default function Main() {
                       <li>Go to your dashboard and copy your API key</li>
                       <li>Paste it above to start generating leads!</li>
                     </ol>
-                    <div style={{ 
-                      marginTop: "8px", 
-                      padding: "6px 8px", 
-                      background: "#ddd6fe", 
+                    <div style={{
+                      marginTop: "8px",
+                      padding: "6px 8px",
+                      background: "#ddd6fe",
                       borderRadius: "4px",
                       fontSize: "11px"
                     }}>
@@ -386,10 +420,10 @@ export default function Main() {
           {/* Collapsed State - Mini Icons */}
           {sidebarCollapsed && (
             <div style={{ marginTop: "50px", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
-              <div 
+              <div
                 title="API Key & Premium Access"
-                style={{ 
-                  fontSize: "24px", 
+                style={{
+                  fontSize: "24px",
                   cursor: "pointer",
                   padding: "8px",
                   borderRadius: "6px",
@@ -399,10 +433,10 @@ export default function Main() {
               >
                 🔑
               </div>
-              <div 
+              <div
                 title="Expand to access settings"
-                style={{ 
-                  fontSize: "20px", 
+                style={{
+                  fontSize: "20px",
                   color: "#6b7280",
                   cursor: "pointer",
                   padding: "8px"
@@ -416,19 +450,24 @@ export default function Main() {
         </div>
 
         {/* Main Content */}
-        <div style={{ flex: 1, padding: "24px" }}>
+        <div style={{
+          flex: 1,
+          padding: isMobile ? "16px" : "24px",
+          marginLeft: isMobile && !sidebarCollapsed ? "0" : "auto",
+          width: isMobile && !sidebarCollapsed ? "0" : "auto"
+        }}>
           {/* Search Form at Top */}
-          <div style={{ 
-            background: "white", 
-            borderRadius: "12px", 
-            padding: "24px", 
-            marginBottom: "24px",
+          <div style={{
+            background: "white",
+            borderRadius: "12px",
+            padding: isMobile ? "16px" : "24px",
+            marginBottom: isMobile ? "16px" : "24px",
             boxShadow: "0 1px 3px rgba(0,0,0,0.1)"
           }}>
             <h2 style={{ margin: "0 0 20px 0", color: "#1f2937", fontSize: "20px", fontWeight: "600" }}>
               🔍 Generate Business Leads
             </h2>
-            
+
             <form onSubmit={handleSearch}>
               {/* Keywords Dropdown */}
               <div style={{ marginBottom: "20px" }}>
@@ -713,15 +752,15 @@ export default function Main() {
           </div>
 
           {/* Results */}
-          <LeadsTable 
-            leads={leads} 
-            searchLocation="Search Results" 
+          <LeadsTable
+            leads={leads}
+            searchLocation="Search Results"
           />
-          
+
           {/* Empty State */}
           {leads.length === 0 && (
-            <div style={{ 
-              textAlign: "center", 
+            <div style={{
+              textAlign: "center",
               padding: "64px 24px",
               color: "#6b7280"
             }}>
@@ -737,7 +776,7 @@ export default function Main() {
 
       {/* Premium Modal */}
       {showPremiumModal && (
-        <div 
+        <div
           style={{
             position: "fixed",
             top: 0,
@@ -752,8 +791,8 @@ export default function Main() {
           }}
           onClick={() => setShowPremiumModal(false)}
         >
-          <div 
-            className="modal-content" 
+          <div
+            className="modal-content"
             style={{
               background: "white",
               borderRadius: "16px",
@@ -837,12 +876,12 @@ export default function Main() {
             {/* Signup Form */}
             <form onSubmit={handleSignupSubmit}>
               <div style={{ marginBottom: "16px" }}>
-                <label style={{ 
-                  display: "block", 
-                  fontSize: "14px", 
-                  fontWeight: "500", 
-                  color: "#374151", 
-                  marginBottom: "6px" 
+                <label style={{
+                  display: "block",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  color: "#374151",
+                  marginBottom: "6px"
                 }}>
                   Email Address
                 </label>
@@ -863,12 +902,12 @@ export default function Main() {
               </div>
 
               <div style={{ marginBottom: "20px" }}>
-                <label style={{ 
-                  display: "block", 
-                  fontSize: "14px", 
-                  fontWeight: "500", 
-                  color: "#374151", 
-                  marginBottom: "6px" 
+                <label style={{
+                  display: "block",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  color: "#374151",
+                  marginBottom: "6px"
                 }}>
                   Password
                 </label>
@@ -906,15 +945,15 @@ export default function Main() {
               </button>
             </form>
 
-            <p style={{ 
-              textAlign: "center", 
-              color: "#6b7280", 
-              fontSize: "11px", 
+            <p style={{
+              textAlign: "center",
+              color: "#6b7280",
+              fontSize: "11px",
               marginTop: "16px",
               marginBottom: 0,
               lineHeight: 1.4
             }}>
-              By signing up, you agree to our Terms of Service and Privacy Policy. 
+              By signing up, you agree to our Terms of Service and Privacy Policy.
               Cancel anytime.
             </p>
           </div>
